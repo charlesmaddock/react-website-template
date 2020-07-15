@@ -1,24 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// Third party
+import React from "react";
+import Router from "./boiler/Router";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { I18nextProvider } from "react-i18next";
+import i18next from "i18next";
+// Custom
+import common_swe from "./translations/swe/common.json";
+import common_en from "./translations/en/common.json";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#a12345",
+    },
+  },
+});
+
+i18next.init({
+  interpolation: { escapeValue: false }, // React already does escaping
+  lng: "en",
+  resources: {
+    en: {
+      common: common_en,
+    },
+    swe: {
+      common: common_swe,
+    },
+  },
+});
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <I18nextProvider i18n={i18next}>
+        <ThemeProvider theme={theme}>
+          <Router />
+        </ThemeProvider>
+      </I18nextProvider>
     </div>
   );
 }
